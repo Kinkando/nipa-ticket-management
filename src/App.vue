@@ -1,14 +1,30 @@
 <template>
   <div id="app">
-    <nav>
+    <!-- <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
-    </nav>
+    </nav> -->
+
     <router-view/>
   </div>
 </template>
 
 <style>
+:root {
+    --background-color: rgb(34, 31, 31);
+    --foreground-color: #fff;
+    --primary-color: #333;
+    --secondary-color: rgb(54, 188, 155);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Prompt', sans-serif;
+  font-weight: bold;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
