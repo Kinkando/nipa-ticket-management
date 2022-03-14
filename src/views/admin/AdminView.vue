@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="background" />
+    <div class="background">
+        <!-- <div class="background" /> -->
         <TopbarComponent />
         <SidebarComponent />
         <TableComponent v-if="!isTicketSelected" />
@@ -42,10 +42,10 @@ export default {
 </script>
 
 <style scoped>
-.background {
+/* .background {
     position: absolute;
     width: 100%;
     height: 100%;
     background-color: rgb(65, 65, 65);
-}
+} */
 </style>

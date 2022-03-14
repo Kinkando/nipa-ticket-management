@@ -1,40 +1,50 @@
 <template>
     <div class="content">
-        <h2>{{ ticketTag }}</h2>
-        <h4>{{ ticketNumber }} ticket(s)</h4>
-        <br>
-        <table>
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Requester</th>
-                    <th>Create timestamp</th>
-                    <th>Latest update timestamp</th>
-                    <th>Channel</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-if="ticketNumber==0" >
-                    <th colspan="5" style="text-align: center;">Empty ticket</th>
-                </tr>
-                <tr v-else 
-                v-for="item in tickets[statusSelected]"  
-                :key = item.id
-                @click="selectTicket(item)"
-                >
-                    <th>{{ item.title }}</th>
-                    <th>{{ item.contact_information.requester_name }}</th>
-                    <th>{{ item.create_timestamp }}</th>
-                    <th>{{ item.latest_update_timestamp }}</th>
-                    <th>{{ item.contact_information.channel }}</th>
-                </tr>
-            </tbody>
-        </table>
+        <div class="loading" v-if="loading">
+            <div class="loader"></div>
+        </div>
+        <div v-else>
+            <h2>{{ ticketTag }}</h2>
+            <h4>{{ ticketNumber }} ticket(s)</h4>
+            <br>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Requester</th>
+                        <th>Create timestamp</th>
+                        <th>Latest update timestamp</th>
+                        <th>Channel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-if="ticketNumber==0" >
+                        <th colspan="5" style="text-align: center;">Empty ticket</th>
+                    </tr>
+                    <tr v-else 
+                    v-for="item in tickets[statusSelected]"  
+                    :key = item.id
+                    @click="selectTicket(item)"
+                    >
+                        <th>{{ item.title }}</th>
+                        <th>{{ item.contact_information.requester_name }}</th>
+                        <th>{{ item.create_timestamp }}</th>
+                        <th>{{ item.latest_update_timestamp }}</th>
+                        <th>{{ item.contact_information.channel }}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
+    data() {
+        return {
+            loading: false,
+        };
+    },
     computed: {
         statusSelected() {
             return this.$store.getters.getTicketStatus;
@@ -50,8 +60,10 @@ export default {
         },
     },
     methods: {
-        selectTicket(ticket) {
-            this.$store.dispatch("fetchTicket", ticket.id);
+        async selectTicket(ticket) {
+            this.loading = true;
+            await this.$store.dispatch("fetchTicket", ticket.id);
+            this.loading = false;
         },
     },
 }
@@ -93,5 +105,26 @@ th {
 tbody tr:hover {
     background-color: var(--primary-color);
     cursor: pointer;
+}
+
+.loading {
+  min-height: calc(100vh - 90px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>

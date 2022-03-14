@@ -1,5 +1,8 @@
 <template>
-    <div class="content">
+    <div :class="!loading ? 'content' : 'content load'">
+        <div class="loading" v-if="loading">
+            <div class="loader"></div>
+        </div>
         <b-form @submit.prevent="onSubmit">
             <div
                 class="form-wrap"
@@ -59,6 +62,7 @@ export default {
             alert: "",
             channelOption: ["Facebook", 'Line', 'Web Form'],
             statusOption: ['pending', 'accepted', 'resolved', 'rejected'],
+            loading: false,
         };
     },
     computed: {
@@ -85,6 +89,7 @@ export default {
             return name.replace(" Tel", " Telephone Number");
         },
         async onSubmit() {
+            this.loading = true;
             const url = `https://nipa-ticket-api.herokuapp.com/ticket/update?id=${this.ticket.id}&description=${this.uTicket.description}&name=${this.uTicket.requester_name}&tel=${this.uTicket.requester_tel}&email=${this.uTicket.requester_email}&channel=${this.uTicket.channel}&status=${this.uTicket.status}`;
             const update = await axios.put(url);
             console.log(update.data.status)
@@ -103,6 +108,7 @@ export default {
             else {
                 this.alert = update.data.message;
             }
+            this.loading = false;
         },
         onReset() {
             this.uTicket = {
@@ -126,11 +132,15 @@ export default {
     top: 50px;
     width: calc(100% - 300px);
     padding: 20px;
-    min-height: calc(100vh - 50px);
+    /* min-height: calc(100vh - 50px); */
     background-color: rgb(65, 65, 65);
     overflow: hidden;
     color: var(--foreground-color);
     text-align: left;
+}
+
+.load {
+    background-color: rgba(65, 65, 65, 0.8);
 }
 
 .form-wrap {
@@ -158,5 +168,33 @@ export default {
 
 .dropdown {
     font-weight: bolder;
+}
+
+.loading {
+    position: fixed;
+    background: red;
+    left: 300px;
+    top: 50px;
+    width: calc(100vw - 300px);
+    height: calc(100vh - 50px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    background: none;
+}
+
+.loader {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 </style>

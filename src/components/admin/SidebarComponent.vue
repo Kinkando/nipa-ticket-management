@@ -5,7 +5,10 @@
             <i class='bx bx-refresh nav-tag-right refresh' @click="reloadTicket()"></i>
         </div>
         <hr>
-        <span>
+        <div v-if="loading" class="loading">
+            <div class="loader"></div>
+        </div>
+        <span v-else>
             <div 
             v-for="(item, key) in tickets" 
             :key="key" 
@@ -21,14 +24,21 @@
 
 <script>
 export default {
+    data() {
+        return {
+            loading: false,
+        };
+    },
     methods: {
-        reloadTicket() {
+        async reloadTicket() {
+            this.loading = true;
             this.$store.dispatch("changeSelected", "");
-            this.$store.dispatch("fetchAllTickets");
+            await this.$store.dispatch("fetchAllTickets");
             for (let item in this.tickets) {
                 this.$store.dispatch("changeStatus", item);
                 break;
             }
+            this.loading = false;
         },
         changeStatusTicket(status) {
             this.$store.dispatch("changeSelected", "");
@@ -57,6 +67,7 @@ export default {
     overflow-y: auto;
     padding: 20px;
 }
+
 .sidebar::-webkit-scrollbar {
     /* hidden scrollbar */
     display: none;
@@ -103,5 +114,26 @@ export default {
 
 .nav-tag-right {
     margin-left: auto;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.loader {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 </style>
