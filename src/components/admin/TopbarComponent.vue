@@ -1,6 +1,6 @@
 <template>
     <div class="topbar">
-        <h1>Help Desk Support Ticket Management</h1>
+        <h3 class="title">Help Desk Support Ticket Management</h3>
     </div>
 </template>
 
@@ -22,5 +22,8 @@ export default {
     height: 50px;
     color: var(--foreground-color);
     background-color: var(--background-color);
+}
+h3.title {
+    margin: auto;
 }
 </style>

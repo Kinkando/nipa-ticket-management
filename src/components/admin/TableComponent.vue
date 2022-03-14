@@ -46,7 +46,7 @@ export default {
             return this.tickets[this.statusSelected] ? this.tickets[this.statusSelected].length : 0;
         },
         ticketTag() {
-            return this.statusSelected.replace(this.statusSelected.charAt(0), this.statusSelected.charAt(0).toUpperCase()) + " Tickets";
+            return this.statusSelected.charAt(0).toUpperCase()+this.statusSelected.substring(1) + " Tickets";
         },
     },
     methods: {
