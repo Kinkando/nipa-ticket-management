@@ -23,6 +23,7 @@
 export default {
     methods: {
         reloadTicket() {
+            this.$store.dispatch("changeSelected", "");
             this.$store.dispatch("fetchAllTickets");
             for (let item in this.tickets) {
                 this.$store.dispatch("changeStatus", item);
@@ -30,6 +31,7 @@ export default {
             }
         },
         changeStatusTicket(status) {
+            this.$store.dispatch("changeSelected", "");
             this.$store.dispatch("changeStatus", status);
         },
     },

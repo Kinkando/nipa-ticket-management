@@ -1,7 +1,7 @@
 <template>
     <div class="content">
-        <h2>{{ ticketTag() }}</h2>
-        <h4>{{ tickets[statusSelected].length }} ticket(s)</h4>
+        <h2>{{ ticketTag }}</h2>
+        <h4>{{ ticketNumber }} ticket(s)</h4>
         <br>
         <table>
             <thead>
@@ -14,12 +14,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in tickets[statusSelected]"  :key = item.id>
+                <tr v-if="ticketNumber==0" >
+                    <th colspan="5" style="text-align: center;">Empty ticket</th>
+                </tr>
+                <tr v-else 
+                v-for="item in tickets[statusSelected]"  
+                :key = item.id
+                @click="selectTicket(item)"
+                >
                     <th>{{ item.title }}</th>
                     <th>{{ item.contact_information.requester_name }}</th>
                     <th>{{ item.create_timestamp }}</th>
                     <th>{{ item.latest_update_timestamp }}</th>
-                    <th>{{ item.channel }}</th>
+                    <th>{{ item.contact_information.channel }}</th>
                 </tr>
             </tbody>
         </table>
@@ -34,11 +41,17 @@ export default {
         },
         tickets() {
             return this.$store.getters.getTickets;
-        }
-    },
-    methods: {
+        },
+        ticketNumber() {
+            return this.tickets[this.statusSelected] ? this.tickets[this.statusSelected].length : 0;
+        },
         ticketTag() {
             return this.statusSelected.replace(this.statusSelected.charAt(0), this.statusSelected.charAt(0).toUpperCase()) + " Tickets";
+        },
+    },
+    methods: {
+        selectTicket(ticket) {
+            this.$store.dispatch("fetchTicket", ticket.id);
         },
     },
 }
@@ -73,7 +86,12 @@ table {
 
 td,
 th {
-    border: 1px solid var(--foreground-color);
+    border-bottom: 1px solid var(--foreground-color);
     padding: 10px;
+}
+
+tbody tr:hover {
+    background-color: var(--primary-color);
+    cursor: pointer;
 }
 </style>

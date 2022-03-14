@@ -47,6 +47,13 @@ export default new Vuex.Store({
             }
             commit("setTickets", statusTickets);
         },
+        async fetchTicket({ commit }, id) {
+            const ticket = await axios.get(
+                `https://nipa-ticket-api.herokuapp.com/ticket/get/${id}`
+            );
+            if (!ticket.data.status) return
+            commit("setTicketSelected", ticket.data.ticket);
+        },
         changeSelected({ commit }, ticket) {
             commit("setTicketSelected", ticket);
         },
