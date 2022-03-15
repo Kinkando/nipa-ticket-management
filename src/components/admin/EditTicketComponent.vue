@@ -90,9 +90,22 @@ export default {
         },
         async onSubmit() {
             this.loading = true;
-            const url = `https://nipa-ticket-api.herokuapp.com/ticket/update?id=${this.ticket.id}&description=${this.uTicket.description}&name=${this.uTicket.requester_name}&tel=${this.uTicket.requester_tel}&email=${this.uTicket.requester_email}&channel=${this.uTicket.channel}&status=${this.uTicket.status}`;
-            const update = await axios.put(url);
-            console.log(update.data.status)
+            const url = `https://nipa-ticket-api.herokuapp.com/ticket/update`;
+            const jsonBody = JSON.stringify({
+                id: this.ticket.id,
+                description: this.uTicket.description,
+                name: this.uTicket.requester_name,
+                tel: this.uTicket.requester_tel,
+                email: this.uTicket.requester_email,
+                channel: this.uTicket.channel,
+                status: this.uTicket.status,
+            });
+            const update = await axios({
+                method: 'PUT',
+                url,
+                data: jsonBody,
+                headers:{'Content-Type': 'application/json; charset=utf-8'}
+            });
 
             // Update successful
             if(update.data.status) {

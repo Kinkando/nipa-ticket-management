@@ -75,17 +75,22 @@ export default {
             return name.replace("tel", "Telephone Number");
         },
         async onSubmit() {
-            console.log(this.contact);
-            const params = {
+            const url = `https://nipa-ticket-api.herokuapp.com/ticket/create`;
+            const jsonBody = JSON.stringify({
                 title: this.contact.title,
                 description: this.contact.description,
                 name: this.contact.name.first_name.trim()+" "+this.contact.name.last_name.trim(),
                 tel: this.contact.tel,
                 email: this.contact.email,
-            };
-            const url = `https://nipa-ticket-api.herokuapp.com/ticket/create?title=${params.title}&description=${params.description}&name=${params.name}&tel=${params.tel}&email=${params.email}&channel=Web Form`;
-            const result = await axios.post(url);
-            console.log(params);
+                channel: 'Web Form',
+            });
+            const result = await axios({
+                method: 'POST',
+                url, 
+                data: jsonBody, 
+                headers:{'Content-Type': 'application/json; charset=utf-8'}
+            });
+            console.log(jsonBody);
             console.log(url)
             console.log(result.data);
         },
