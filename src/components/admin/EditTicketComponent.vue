@@ -14,12 +14,14 @@
                     :label-for="key"
                 >
                     <b-form-textarea
+                        style="max-height: 296px; min-height: 65px;"
                         class="input"
                         v-if="key==='description'"
-                        oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+                        oninput='this.style.height = "";this.style.height = (this.scrollHeight+5) + "px"'
                         :value="item"
                         :placeholder="item"
                         v-model="uTicket[key]"
+                        required
                     />
                     <b-form-select
                         class = "dropdown"
@@ -33,15 +35,22 @@
                         :value="item"
                         :placeholder="item"
                         v-model="uTicket[key]"
+                        :type="key === 'requester_email' ? 'email' : 'text'"
+                        :maxlength="key === 'requester_tel' ? '10' : ''"
+                        :minlength="key === 'requester_tel' ? '10' : ''"
+                        required
                     />
+                        <!-- @keydown="key === 'requester_tel' ? acceptedNumber($event) : ''"
+                        :maxlength="key === 'requester_tel' ? '10' : ''"
+                        :minlength="key === 'requester_tel' ? '10' : ''" -->
                 </b-form-group>
             </div>
             <b-row class="buttons">
                 <b-button type="submit" class="buttons-control left" variant="success">Save</b-button>
                 <b-button @click="onReset()" class="buttons-control" variant="danger">Reset</b-button>
             </b-row>
+            <b-alert variant="danger" class="alert" :show="alert.length>0">Error: {{ alert }}</b-alert>
         </b-form>
-        <b-alert variant="danger" class="alert" :show="alert.length>0">Error: {{ alert }}</b-alert>
     </div>
 </template>
 
@@ -134,6 +143,14 @@ export default {
                 status: this.ticket.status,
             };
         },
+        // acceptedNumber($event) {
+        //     var key = $event.key;
+        //     if((isNaN(key) || key === ' ')) {
+        //         if(!['Tab', 'Enter', 'Backspace', 'Delete', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key)) {
+        //             $event.preventDefault();
+        //         }
+        //     }
+        // },
     }
 }
 </script>
