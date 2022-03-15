@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="loading-screen" v-if="loading">
-            <b-overlay :show="loading" rounded="sm" />
+        <div v-if="loading" class="loading">
+            <div class="loader"></div>
         </div>
         <TopbarComponent />
         <SidebarComponent />
@@ -51,13 +51,31 @@ export default {
 </script>
 
 <style scoped>
-.loading-screen {
+.loading {
     position: fixed;
-    height: 100vh;
+    background: red;
+    left: 0;
+    top: 0;
     width: 100vw;
-    z-index: 100;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 2;
+    background: none;
+}
+
+.loader {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 </style>

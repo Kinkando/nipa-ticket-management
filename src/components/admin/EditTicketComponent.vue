@@ -40,9 +40,6 @@
                         :minlength="key === 'requester_tel' ? '10' : ''"
                         required
                     />
-                        <!-- @keydown="key === 'requester_tel' ? acceptedNumber($event) : ''"
-                        :maxlength="key === 'requester_tel' ? '10' : ''"
-                        :minlength="key === 'requester_tel' ? '10' : ''" -->
                 </b-form-group>
             </div>
             <b-row class="buttons">
@@ -143,14 +140,6 @@ export default {
                 status: this.ticket.status,
             };
         },
-        // acceptedNumber($event) {
-        //     var key = $event.key;
-        //     if((isNaN(key) || key === ' ')) {
-        //         if(!['Tab', 'Enter', 'Backspace', 'Delete', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key)) {
-        //             $event.preventDefault();
-        //         }
-        //     }
-        // },
     }
 }
 </script>
@@ -162,7 +151,6 @@ export default {
     top: 50px;
     width: calc(100% - 300px);
     padding: 20px;
-    /* min-height: calc(100vh - 50px); */
     background-color: rgb(65, 65, 65);
     overflow: hidden;
     color: var(--foreground-color);

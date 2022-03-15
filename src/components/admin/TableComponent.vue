@@ -3,7 +3,7 @@
         <div class="loading" v-if="loading">
             <div class="loader"></div>
         </div>
-        <div v-else>
+        <div>
             <h2>{{ ticketTag }}</h2>
             <h4>{{ ticketNumber }} ticket(s)</h4>
             <br>
@@ -108,18 +108,23 @@ tbody tr:hover {
 }
 
 .loading {
-  min-height: calc(100vh - 90px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    position: fixed;
+    left: 300px;
+    top: 50px;
+    height: calc(100vh - 50px);
+    width: calc(100vw - 300px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
 }
 
 .loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #3498db; /* Blue */
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
   animation: spin 2s linear infinite;
 }
 
