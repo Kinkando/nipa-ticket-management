@@ -1,5 +1,20 @@
 <template>
     <div class="content">
+        <!-- Modal content -->
+        <!-- <div class="modal-content" v-show="modal">
+            <div class="modal-header">
+                <span class="close" @click="modal=false">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the Modal Body</p>
+                <p>Some other text...</p>
+            </div>
+            <div class="modal-footer">
+                <h3>Modal Footer</h3>
+            </div>
+        </div> -->
+
+
         <b-overlay :show="loading" rounded="sm" class="p-4 card-wrap">
             <!-- <div class="loading" v-if="loading">
                 <div class="loader"></div>
@@ -12,11 +27,7 @@
                     Failed
                 </div>
             </div> -->
-            <div class="dialog">
-                <div class="success-dialog" v-show="!status">
-                    Success
-                </div>
-            </div>
+
             <b-form @submit.prevent="onSubmit">
                 <div
                     v-for="(item, key) in contact"
@@ -54,7 +65,7 @@
                     <!-- </b-form-group> -->
                 </div>
                 <div class="d-flex justify-content-center">
-                    <b-button type="submit" class="mt-2" variant="success">Submit</b-button>
+                    <b-button type="submit" class="mt-2" variant="success" v-b-modal.modal-1>Submit</b-button>
                 </div>
             </b-form>
         </b-overlay>
@@ -82,6 +93,7 @@ export default {
             },
             loading: false,
             status: undefined,
+            modal: true,
         };
     },
     methods: {
@@ -195,14 +207,57 @@ export default {
     100% { transform: rotate(360deg); }
 }
 
+/* Modal Header */
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 2px 16px;
+}
+
+/* Modal Footer */
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+
+
 .dialog {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100vw;
+    height: 100vh;
     z-index: 2;
+    background: red;
+}
+
+.dialog-center {
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
 }
 
 .success-dialog {
@@ -211,5 +266,6 @@ export default {
 
 .failed-dialog {
     background-color: red;
-}
+} 
+
 </style>

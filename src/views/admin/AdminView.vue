@@ -1,6 +1,8 @@
 <template>
-    <div class="background">
-        <!-- <div class="background" /> -->
+    <div>
+        <div class="loading-screen" v-if="loading">
+            <b-overlay :show="loading" rounded="sm" />
+        </div>
         <TopbarComponent />
         <SidebarComponent />
         <TableComponent v-if="!isTicketSelected" />
@@ -14,6 +16,11 @@ import TopbarComponent from "@/components/admin/TopbarComponent.vue";
 import TableComponent from "@/components/admin/TableComponent.vue";
 import EditTicketComponent from "@/components/admin/EditTicketComponent.vue";
 export default {
+    data() {
+        return {
+            loading: false,
+        };
+    },
     components: {
         SidebarComponent,
         TopbarComponent,
@@ -21,11 +28,13 @@ export default {
         EditTicketComponent,
     },
     async created() {
+        this.loading = true;
         await this.$store.dispatch("fetchAllTickets");
         for (let item in this.tickets) {
             this.$store.dispatch("changeStatus", item);
             break;
         }
+        this.loading =  false;
     },
     computed: {
         statusSelected() {
@@ -42,10 +51,13 @@ export default {
 </script>
 
 <style scoped>
-/* .background {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(65, 65, 65);
-} */
+.loading-screen {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 </style>
